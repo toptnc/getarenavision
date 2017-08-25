@@ -3,13 +3,15 @@
 if [ -f $HOME/.config/user-dirs.dirs ];
 then
     source $HOME/.config/user-dirs.dirs
+else
+    XDG_DESKTOP_DIR=$HOME
 fi
 
-m3ufile=$HOME/Escritorio/arenavision.m3u
+m3ufile=$XDG_DESKTOP_DIR/arenavision.m3u
 
 guidetemp='/tmp/arenaguide.tmp'
 guidetxt='/tmp/arenaguide.txt'
-guidefile=$HOME/Escritorio/arenavision-guia.txt
+guidefile=$XDG_DESKTOP_DIR/arenavision-guide.txt
 
 curl -s --cookie "beget=begetok" -o $guidetemp http://arenavision.in/guide 
 cat $guidetemp | html2text -width 100  > $guidetxt
