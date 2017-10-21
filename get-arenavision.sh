@@ -1,37 +1,16 @@
 #!/bin/bash
 
-if [ -f $HOME/.config/user-dirs.dirs ];
-then
-    source $HOME/.config/user-dirs.dirs
-else
-    XDG_DESKTOP_DIR=$HOME
-fi
-
-m3ufile=$XDG_DESKTOP_DIR/arenavision.m3u
-
-guidetemp='/tmp/arenaguide.tmp'
-guidetxt='/tmp/arenaguide.txt'
-guidefile=$XDG_DESKTOP_DIR/arenavision-guide.txt
-
-curl -s --cookie "beget=begetok" -o $guidetemp http://arenavision.in/guide 
-cat $guidetemp | html2text -width 100  > $guidetxt
-
-LNSTART=$(grep -n "active-trail active" $guidetemp | cut -d ":" -f 1)
-LNEND=$(grep -n "DOWNLOAD ACESTREAM PLUGIN" $guidetemp | cut -d ":" -f 1)
-
-CHLIST=$(awk -v start="$LNSTART" -v end="$LNEND" 'NR > start && NR < end' $guidetemp | grep leaf | sed 's/href/\nhref/g' | grep href | grep -v menu | grep -v active-trail | cut -d "\"" -f 2)
+m3ufile=$HOME/Escritorio/arenavision.m3u
 
 echo > $m3ufile
 progress=0
-channel=1
 (
-for i in $CHLIST;
+for i in $(seq -w 1 31);
 do
    arenalink=$(curl -s --cookie "beget=begetok"  http://arenavision.in/$i | grep acestream:// | sed 's/\ /\n/g'| grep acestream | cut -d "=" -f 2 | sed 's/\"//g')
-   echo \#EXTINF:-1,Arenavision $channel >> $m3ufile
+   echo \#EXTINF:-1,Arenavision AV$i >> $m3ufile
    echo $arenalink >> $m3ufile
    progress=$(($progress + 3))
-   channel=$(($channel + 1))
    echo $progress
 done
 echo 100
@@ -43,10 +22,13 @@ echo 100
   --auto-close \
   --auto-kill
 
+guidetemp='/tmp/arenaguide.tmp'
+guidefile=$HOME/Escritorio/arenavision-guia.txt
 
-LNSTART=$(grep -n "EVENTS GUIDE" $guidetxt | cut -d ":" -f 1)
-LNEND=$(grep -n "Last update" $guidetxt | cut -d ":" -f 1)
-awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetxt > $guidefile
+curl -s --cookie "beget=begetok"  http://arenavision.in/iguide | html2text -width 100 > $guidetemp
+LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
+LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
+awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetemp > $guidefile
 yad --width=900 --height=800 --text-info --filename=$guidefile &
 
 acestreamplayer $m3ufile
