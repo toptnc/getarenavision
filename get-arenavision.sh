@@ -7,7 +7,7 @@ progress=0
 (
 for i in $(seq -w 1 31);
 do
-   arenalink=$(curl -s --cookie "beget=begetok"  http://arenavision.in/$i | grep acestream:// | sed 's/\ /\n/g'| grep acestream | cut -d "=" -f 2 | sed 's/\"//g')
+   arenalink=$(curl -s --cookie "beget=begetok"  http://arenavision2017.ga/$i | grep acestream:// | sed 's/\ /\n/g'| grep acestream | cut -d "=" -f 2 | sed 's/\"//g')
    echo \#EXTINF:-1,Arenavision AV$i >> $m3ufile
    echo $arenalink >> $m3ufile
    progress=$(($progress + 3))
@@ -25,7 +25,7 @@ echo 100
 guidetemp='/tmp/arenaguide.tmp'
 guidefile=$HOME/Escritorio/arenavision-guia.txt
 
-curl -s --cookie "beget=begetok"  http://arenavision.in/iguide | html2text -width 100 > $guidetemp
+curl -s --cookie "beget=begetok"  http://arenavision.in/e-guide | html2text -width 100 > $guidetemp
 LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
 LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
 awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetemp > $guidefile
