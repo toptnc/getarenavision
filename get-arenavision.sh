@@ -31,7 +31,7 @@ echo 100
 guidetemp='/tmp/arenaguide.tmp'
 guidefile=$HOME/Escritorio/arenavision-guia.txt
 guideurl=$(curl -s --cookie "beget=begetok" http://arenavision.in | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep EVENTS | cut -d '"' -f 2)
-curl -s --cookie "beget=begetok"  http://arenavision.in/$guideurl | html2text -width 100 > $guidetemp
+curl -s --cookie "beget=begetok"  $guideurl | html2text -width 100 > $guidetemp
 LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
 LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
 awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetemp > $guidefile
