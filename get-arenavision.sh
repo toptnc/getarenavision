@@ -30,7 +30,9 @@ echo 100
 
 guidetemp='/tmp/arenaguide.tmp'
 guidefile=$HOME/Escritorio/arenavision-guia.txt
-guideurl=$(curl -s --cookie "beget=begetok" http://arenavision.in | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep EVENTS | cut -d '"' -f 2)
+guidepath=$(curl -s --cookie "beget=begetok" http://arenavision.in | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep EVENTS | cut -d '"' -f 2)
+echo $guidepath | grep -q http && guideurl=$guidepath || guideurl="http://arenavision.in/$guidepath"
+
 curl -s --cookie "beget=begetok"  $guideurl | html2text -width 100 > $guidetemp
 LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
 LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
