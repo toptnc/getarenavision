@@ -3,6 +3,7 @@
 
 m3ufile=$HOME/Escritorio/arenavision.m3u
 fronturl='https://arenavision.co.in'
+acebinary='/usr/bin/acestreamplayer'
 
 
 echo > $m3ufile
@@ -42,4 +43,4 @@ LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
 awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetemp > $guidefile
 yad --width=900 --height=800 --text-info --filename=$guidefile &
 
-acestreamplayer $m3ufile
+$acebinary $m3ufile
