@@ -1,11 +1,14 @@
+
 #!/bin/bash
 
 m3ufile=$HOME/Escritorio/arenavision.m3u
+fronturl='https://arenavision.co.in'
+
 
 echo > $m3ufile
 progress=0
 
-links=$(curl -s --cookie "beget=begetok" http://arenavision.in | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep ArenaVision)
+links=$(curl -s --cookie "beget=begetok" $fronturl | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep ArenaVision)
 (
     IFS='
 '
@@ -30,8 +33,8 @@ echo 100
 
 guidetemp='/tmp/arenaguide.tmp'
 guidefile=$HOME/Escritorio/arenavision-guia.txt
-guidepath=$(curl -s --cookie "beget=begetok" http://arenavision.in | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep EVENTS | cut -d '"' -f 2)
-echo $guidepath | grep -q http && guideurl=$guidepath || guideurl="http://arenavision.in/$guidepath"
+guidepath=$(curl -s --cookie "beget=begetok" $fronturl | grep -o '\<a href.*\>' | sed 's/\<a\ href/\n\<a\ href/g' | grep EVENTS | cut -d '"' -f 2)
+echo $guidepath | grep -q http && guideurl=$guidepath || guideurl="$fronturl/$guidepath"
 
 curl -s --cookie "beget=begetok"  $guideurl | html2text -width 100 > $guidetemp
 LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
