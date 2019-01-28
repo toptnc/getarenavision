@@ -2,7 +2,7 @@
 #!/bin/bash
 
 m3ufile=$HOME/Escritorio/arenavision.m3u
-fronturl='https://arenavision.co.in'
+fronturl='https://arenavision.us'
 acebinary='/usr/bin/acestreamplayer'
 
 
