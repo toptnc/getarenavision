@@ -17,9 +17,10 @@ links=$(curl -s --cookie "beget=begetok" $fronturl | grep -o '\<a href.*\>' | se
     do
 	arenaurl=$(echo "$line" | cut -d '"' -f 2)
 	arenatitle=$(echo "$line" | cut -d '>' -f 2 | cut -d '<' -f 1)
-	arenalink=$(curl -s --cookie "beget=begetok" $arenaurl | grep acestream:// | sed 's/\ /\n/g'| grep acestream | cut -d "=" -f 2 | sed 's/\"//g')
+	#arenalink=$(curl -s --cookie "beget=begetok" $arenaurl | grep acestream:// | sed 's/\ /\n/g'| grep acestream | cut -d "=" -f 2 | sed 's/\"//g')
+	arenalink=$(curl -s --cookie "beget=begetok" $arenaurl | grep jQuery | grep manifest | sed 's/\,/\n/g'| grep id | cut -d "\"" -f 2)
 	echo \#EXTINF:-1,"$arenatitle" >> $m3ufile
-	echo $arenalink >> $m3ufile
+	echo "acestream://$arenalink" >> $m3ufile
 	progress=$(($progress + 3))
 	echo $progress
 done
