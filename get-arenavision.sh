@@ -2,7 +2,7 @@
 #!/bin/bash
 
 m3ufile=$HOME/Escritorio/arenavision.m3u
-fronturl='https://arenavision.us'
+fronturl='http://arenavision.us'
 acebinary='/usr/bin/acestreamplayer'
 
 
@@ -42,6 +42,6 @@ curl -s --cookie "beget=begetok"  $guideurl | html2text -width 100 > $guidetemp
 LNSTART=$(grep -n "EVENTS GUIDE" $guidetemp | cut -d ":" -f 1)
 LNEND=$(grep -n "Last update" $guidetemp | cut -d ":" -f 1)
 awk -v start="$LNSTART" -v end="$LNEND" 'NR >= start && NR <= end' $guidetemp > $guidefile
-yad --width=900 --height=800 --text-info --filename=$guidefile &
+yad --title="Programación de Eventos" --width=900 --height=800 --text-info --filename=$guidefile &
 
 $acebinary $m3ufile
