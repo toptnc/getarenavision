@@ -11,7 +11,7 @@ This script requires various tools to work.
 * Acestream player (acestreamplayer)
  
 # Usage
-This script doesn't need any arguments. It will scrape http://arenavision.in/guide and will write two files in your DESKTOP dir.
+This script doesn't need any arguments. It will scrape http://arenavision.live and will write two files in your DESKTOP dir.
 
 * arenavision-guide.txt (Events Guide)
 * arenavision.m3u (acestream URLs)
