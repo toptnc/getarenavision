@@ -4,7 +4,7 @@ Simple desktop script to scrape arenavision channels and generate a playlist fil
 # Requirements
 This script requires various tools to work.
 
-* curl
+* links
 * html2text
 * awk
 * sed
